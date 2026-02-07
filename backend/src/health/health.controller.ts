@@ -1,7 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, HealthCheckResult } from '@nestjs/terminus';
+import { SkipThrottle } from '@nestjs/throttler';
 import { PrismaHealthIndicator } from './prisma.health';
 
+@SkipThrottle() // Health endpoint should not be rate-limited
 @Controller('health')
 export class HealthController {
   constructor(

@@ -9,6 +9,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
@@ -25,6 +26,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
+  @Throttle({ auth: { limit: 3, ttl: 60000 } }) // 3 signups per minute
   async signup(@Body() dto: SignupDto, @Req() req: Request) {
     const user = await this.authService.signup(dto);
 
@@ -46,6 +48,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @Throttle({ auth: { limit: 5, ttl: 60000 } }) // 5 login attempts per minute
   @UseGuards(LocalAuthGuard)
   async login(
     @Body() loginDto: LoginDto,
@@ -85,6 +88,7 @@ export class AuthController {
     });
   }
 
+  @SkipThrottle() // No rate limit on logout
   @Post('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy((err) => {
@@ -143,6 +147,7 @@ export class AuthController {
   }
 
   @Post('resend-verification')
+  @Throttle({ auth: { limit: 1, ttl: 300000 } }) // 1 per 5 minutes
   @UseGuards(AuthenticatedGuard)
   async resendVerification(@CurrentUser() user: any) {
     await this.authService.resendVerificationEmail(user.id, user.email);
@@ -150,6 +155,7 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @Throttle({ auth: { limit: 1, ttl: 300000 } }) // 1 per 5 minutes
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
     await this.authService.sendPasswordResetEmail(dto.email);
     // Always return same message regardless of whether email exists (prevents user enumeration)
