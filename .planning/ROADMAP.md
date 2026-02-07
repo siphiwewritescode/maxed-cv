@@ -31,10 +31,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Next.js frontend runs and connects to backend API
   4. Docker Compose orchestrates all services (backend, database, frontend, Redis)
   5. CI/CD pipeline runs basic tests and builds successfully
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 01-01: [TBD during planning]
+- [ ] 01-01-PLAN.md — Scaffold NestJS backend with Prisma schema and health check endpoint
+- [ ] 01-02-PLAN.md — Scaffold Next.js frontend with App Router, SEO metadata, and API client
+- [ ] 01-03-PLAN.md — Docker Compose orchestration, Dockerfiles, root npm scripts, and env config
+- [ ] 01-04-PLAN.md — Prisma seed data (SA-themed), CI/CD pipeline, and README documentation
 
 ### Phase 2: Authentication & Security
 **Goal**: Users can create accounts, log in securely, and manage their authentication state
@@ -122,7 +125,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Setup & Infrastructure | 0/0 | Not started | - |
+| 1. Project Setup & Infrastructure | 0/4 | Planning complete | - |
 | 2. Authentication & Security | 0/0 | Not started | - |
 | 3. Master Profile Management | 0/0 | Not started | - |
 | 4. Job URL Scraping | 0/0 | Not started | - |
