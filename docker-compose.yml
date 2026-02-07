@@ -33,10 +33,12 @@ services:
       - ./frontend/app:/app/app:delegated
       - ./frontend/public:/app/public:delegated
       - ./frontend/lib:/app/lib:delegated
+      - ./frontend/middleware.ts:/app/middleware.ts:delegated
       - frontend_node_modules:/app/node_modules
       - frontend_next:/app/.next
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - INTERNAL_API_URL=http://backend:3001
       - WATCHPACK_POLLING=true
     ports:
       - "3000:3000"
