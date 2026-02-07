@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -15,15 +16,24 @@ async function main() {
   await prisma.skill.deleteMany();
   await prisma.experience.deleteMany();
   await prisma.masterProfile.deleteMany();
+  await prisma.verificationToken.deleteMany();
+  await prisma.passwordResetToken.deleteMany();
   await prisma.user.deleteMany();
   console.log('✓ Existing data cleared');
 
   // Create test user
   console.log('\nCreating test user...');
+  const passwordHash = await bcrypt.hash('Test@1234', 13);
   const user = await prisma.user.create({
     data: {
       email: 'test@maxedcv.com',
       name: 'Sipho Ngwenya',
+      firstName: 'Sipho',
+      lastName: 'Ngwenya',
+      passwordHash,
+      googleId: null,
+      linkedinId: null,
+      avatar: null,
       emailVerified: new Date(),
       createdAt: new Date(),
     },
@@ -283,7 +293,7 @@ Submit your CV and a brief cover letter outlining your relevant experience and w
   console.log(`   • Sample Jobs: 1`);
   console.log('\n✅ Seed data complete!');
   console.log(
-    '\nTest Account:\n   Email: test@maxedcv.com\n   Name: Sipho Ngwenya\n'
+    '\nTest Account:\n   Email: test@maxedcv.com\n   Name: Sipho Ngwenya\n   Password: Test@1234\n'
   );
 }
 

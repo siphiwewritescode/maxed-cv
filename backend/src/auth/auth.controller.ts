@@ -11,6 +11,7 @@ import {
 import { Request, Response } from 'express';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
+import { SessionsService } from '../sessions/sessions.service';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -23,7 +24,10 @@ import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private sessionsService: SessionsService,
+  ) {}
 
   @Post('signup')
   @Throttle({ auth: { limit: 3, ttl: 60000 } }) // 3 signups per minute
@@ -32,8 +36,12 @@ export class AuthController {
 
     // Auto-login after signup using req.login
     return new Promise((resolve, reject) => {
-      req.login(user, (err) => {
+      req.login(user, async (err) => {
         if (err) return reject(new InternalServerErrorException('Session error'));
+
+        // Track session for multi-device limit enforcement
+        await this.sessionsService.addUserSession(user.id, req.sessionID);
+
         resolve({
           message: 'Account created successfully',
           user: {
@@ -57,7 +65,7 @@ export class AuthController {
   ) {
     // Regenerate session to prevent session fixation
     return new Promise((resolve, reject) => {
-      req.session.regenerate((err) => {
+      req.session.regenerate(async (err) => {
         if (err) return reject(new InternalServerErrorException('Session error'));
 
         // Re-serialize user after regeneration
@@ -72,8 +80,12 @@ export class AuthController {
           req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
         }
 
-        req.session.save((err) => {
+        req.session.save(async (err) => {
           if (err) return reject(new InternalServerErrorException('Session error'));
+
+          // Track session for multi-device limit enforcement (max 3 concurrent sessions)
+          await this.sessionsService.addUserSession(user.id, req.sessionID);
+
           resolve({
             message: 'Login successful',
             user: {
@@ -91,6 +103,15 @@ export class AuthController {
   @SkipThrottle() // No rate limit on logout
   @Post('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
+    // Remove session from tracking before destroying
+    const session = req.session as any;
+    if (session?.passport?.user) {
+      await this.sessionsService.removeUserSession(
+        session.passport.user,
+        req.sessionID,
+      );
+    }
+
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).json({ message: 'Failed to log out' });
@@ -130,8 +151,12 @@ export class AuthController {
 
     // Auto-login the user after email verification
     return new Promise((resolve, reject) => {
-      req.login(user, (err) => {
+      req.login(user, async (err) => {
         if (err) return reject(new InternalServerErrorException('Session error'));
+
+        // Track session for multi-device limit enforcement
+        await this.sessionsService.addUserSession(user.id, req.sessionID);
+
         resolve({
           message: 'Email verified successfully',
           user: {
@@ -180,16 +205,20 @@ export class AuthController {
     // Passport populates req.user after OAuth callback
     // Regenerate session for security
     const user = req.user;
-    req.session.regenerate((err) => {
+    req.session.regenerate(async (err) => {
       if (err) {
         return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
       }
       (req.session as any).passport = { user: (user as any).id };
       (req.session as any).createdAt = Date.now();
-      req.session.save((err) => {
+      req.session.save(async (err) => {
         if (err) {
           return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
         }
+
+        // Track session for multi-device limit enforcement
+        await this.sessionsService.addUserSession((user as any).id, req.sessionID);
+
         // Redirect to frontend dashboard
         res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`);
       });
@@ -207,16 +236,20 @@ export class AuthController {
   async linkedinAuthCallback(@Req() req: Request, @Res() res: Response) {
     // Same session establishment pattern as Google callback
     const user = req.user;
-    req.session.regenerate((err) => {
+    req.session.regenerate(async (err) => {
       if (err) {
         return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
       }
       (req.session as any).passport = { user: (user as any).id };
       (req.session as any).createdAt = Date.now();
-      req.session.save((err) => {
+      req.session.save(async (err) => {
         if (err) {
           return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
         }
+
+        // Track session for multi-device limit enforcement
+        await this.sessionsService.addUserSession((user as any).id, req.sessionID);
+
         res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`);
       });
     });
