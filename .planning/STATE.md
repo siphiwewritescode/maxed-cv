@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 6 (Authentication & Security)
-Plan: 3 of 6 in current phase
+Plan: 4 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 02-03-PLAN.md (Sessions & Email Infrastructure)
+Last activity: 2026-02-07 — Completed 02-04-PLAN.md (Email Verification & Password Reset)
 
-Progress: [██████░░░░] 70%
+Progress: [███████░░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 5 min
 - Total execution time: 1.3 hours
 
@@ -28,11 +28,11 @@ Progress: [██████░░░░] 70%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
-| Phase 2 | 3 | 12 min | 4 min |
+| Phase 2 | 4 | 15 min | 3.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 6min, 4min, 2min
-- Trend: Improving (3.8min vs 5min average)
+- Last 5 plans: 6min, 4min, 2min, 3min
+- Trend: Excellent (3min vs 5min average)
 
 *Updated after each plan completion*
 
@@ -72,6 +72,12 @@ Recent decisions affecting current work:
 - **[02-03]** Max 3 concurrent sessions enforced (oldest evicted when 4th device logs in)
 - **[02-03]** Email failures log warning without crashing (dev without SMTP works)
 - **[02-03]** SA locale (en-ZA) for password change timestamps
+- **[02-04]** Email verification tokens expire after 24 hours (balance convenience and security)
+- **[02-04]** Password reset tokens expire after 1 hour (shorter window reduces attack surface)
+- **[02-04]** SHA-256 hashing for tokens (faster than bcrypt, sufficient for random tokens)
+- **[02-04]** Artificial delay for non-existent emails prevents user enumeration
+- **[02-04]** All sessions invalidated on password reset (security best practice)
+- **[02-04]** Auto-login after email verification (better UX)
 
 ### Pending Todos
 
@@ -87,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07 17:59 UTC
-Stopped at: Completed 02-03-PLAN.md (Sessions & Email Infrastructure)
+Last session: 2026-02-07 18:25 UTC
+Stopped at: Completed 02-04-PLAN.md (Email Verification & Password Reset)
 Resume file: None
