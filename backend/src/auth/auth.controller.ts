@@ -104,4 +104,44 @@ export class AuthController {
       avatar: user.avatar,
     };
   }
+
+  @Post('verify-email')
+  async verifyEmail(
+    @Body('token') token: string,
+    @Req() req: Request,
+  ) {
+    // Verify the email
+    const { userId } = await this.authService.verifyEmail(token);
+
+    // Get the verified user
+    const user = await this.authService['usersService'].findById(userId);
+
+    if (!user) {
+      throw new InternalServerErrorException('User not found after verification');
+    }
+
+    // Auto-login the user after email verification
+    return new Promise((resolve, reject) => {
+      req.login(user, (err) => {
+        if (err) return reject(new InternalServerErrorException('Session error'));
+        resolve({
+          message: 'Email verified successfully',
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            emailVerified: user.emailVerified,
+          },
+        });
+      });
+    });
+  }
+
+  @Post('resend-verification')
+  @UseGuards(AuthenticatedGuard)
+  async resendVerification(@CurrentUser() user: any) {
+    await this.authService.resendVerificationEmail(user.id, user.email);
+    return { message: 'Verification email sent' };
+  }
 }
