@@ -12,7 +12,7 @@ This roadmap delivers an AI-powered CV tailoring platform for the South African 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Project Setup & Infrastructure** - Foundation with database, Docker, and API scaffolding
+- [x] **Phase 1: Project Setup - [ ] **Phase 1: Project Setup & Infrastructure** Infrastructure** - Foundation with database, Docker, and API scaffolding
 - [ ] **Phase 2: Authentication & Security** - User registration, login, and session management
 - [ ] **Phase 3: Master Profile Management** - Create and edit comprehensive user profiles with SA-specific fields
 - [ ] **Phase 4: Job URL Scraping** - Extract job descriptions from LinkedIn, Pnet, and other SA job boards
@@ -125,7 +125,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Setup & Infrastructure | 0/4 | Planning complete | - |
+| 1. Project Setup | 1. Project Setup & Infrastructure | 0/4 | Planning complete | - | Infrastructure | 4/4 | Complete | 2026-02-07 |
 | 2. Authentication & Security | 0/0 | Not started | - |
 | 3. Master Profile Management | 0/0 | Not started | - |
 | 4. Job URL Scraping | 0/0 | Not started | - |
