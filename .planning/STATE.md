@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 6 (Authentication & Security)
-Plan: 5 of 6 in current phase
-Status: In progress
-Last activity: 2026-02-07 — Completed 02-05-PLAN.md (OAuth Integration)
+Plan: 6 of 6 in current phase
+Status: Phase complete
+Last activity: 2026-02-07 — Completed 02-06-PLAN.md (RBAC & Permissions)
 
-Progress: [████████░░] 80%
+Progress: [█████████░] 83%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 4.6 min
-- Total execution time: 1.4 hours
+- Total plans completed: 10
+- Average duration: 4.4 min
+- Total execution time: 1.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
-| Phase 2 | 5 | 18 min | 3.6 min |
+| Phase 2 | 6 | 21.5 min | 3.6 min |
 
 **Recent Trend:**
-- Last 5 plans: 4min, 2min, 3min, 3min
-- Trend: Excellent (2.8min vs 4.6min average)
+- Last 5 plans: 2min, 3min, 3min, 3.5min
+- Trend: Excellent (2.9min vs 4.4min average)
 
 *Updated after each plan completion*
 
@@ -82,6 +82,12 @@ Recent decisions affecting current work:
 - **[02-05]** LinkedIn uses openid/profile/email scopes (newer Sign In with LinkedIn API)
 - **[02-05]** Account linking by email when OAuth email matches existing user
 - **[02-05]** OAuth users auto-verified (Google/LinkedIn verify emails)
+- **[02-06]** Rate limits: login (5/min), signup (3/min), resend-verification (1/5min), forgot-password (1/5min)
+- **[02-06]** CustomThrottlerGuard uses user ID for authenticated, IP for anonymous (prevents NAT/VPN false positives)
+- **[02-06]** Absolute session expiry (7-day default, 30-day remember me) alongside sliding expiration
+- **[02-06]** Session tracking integrated into all auth flows (max 3 concurrent sessions)
+- **[02-06]** Health endpoint skips throttling (monitoring needs unrestricted access)
+- **[02-06]** Seed password Test@1234 (bcrypt work factor 13) enables auth flow testing
 
 ### Pending Todos
 
@@ -97,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07 18:10 UTC
-Stopped at: Completed 02-05-PLAN.md (OAuth Integration)
+Last session: 2026-02-07 18:20 UTC
+Stopped at: Completed 02-06-PLAN.md (RBAC & Permissions) - Phase 2 complete
 Resume file: None
