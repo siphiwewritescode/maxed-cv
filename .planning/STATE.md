@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-02-07)
 
 **Core value:** Eliminate the friction of manual CV tailoring that causes talented South African professionals to lose momentum in a highly competitive job market, ensuring every applicant has the best possible chance of passing ATS filters and reaching human recruiters.
-**Current focus:** Phase 1 - Project Setup & Infrastructure
+**Current focus:** Phase 2 - Authentication & Security
 
 ## Current Position
 
-Phase: 2 of 6 (Authentication Phase: 1 of 6 (Project Setup & Infrastructure) Security)
-Plan: 4 of 4 in current phase
-Status: Phase complete
-Last activity: 2026-02-07 — Completed 01-04-PLAN.md (Seed Data, CI/CD, and Documentation)
+Phase: 2 of 6 (Authentication & Security)
+Plan: 1 of 6 in current phase
+Status: In progress
+Last activity: 2026-02-07 — Completed 02-01-PLAN.md (Auth Foundation - Dependencies, Schema & Middleware)
 
-Progress: [████░░░░░░] 40%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 7 min
-- Total execution time: 0.5 hours
+- Total execution time: 1.1 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
+| Phase 2 | 1 | 6 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 16min, 7min, 2min, 3min
-- Trend: Accelerating (3min vs 9min average)
+- Last 5 plans: 7min, 2min, 3min, 6min
+- Trend: Stable (4.5min vs 7min average)
 
 *Updated after each plan completion*
 
@@ -60,6 +61,10 @@ Recent decisions affecting current work:
 - **[01-04]** Idempotent seed script with deleteMany in reverse dependency order
 - **[01-04]** CI pipeline with --passWithNoTests flag (tests added in Phase 2+)
 - **[01-04]** Comprehensive README documenting full workflow from setup to seeding
+- **[02-01]** @nestjs/passport v11 for NestJS v11 compatibility (not v10)
+- **[02-01]** Sliding session expiration (rolling: true) for better UX
+- **[02-01]** 7-day session duration balancing security and convenience
+- **[02-01]** OAuth and email env vars optional to allow dev without external services
 
 ### Pending Todos
 
@@ -67,10 +72,14 @@ None yet.
 
 ### Blockers/Concerns
 
-None yet.
+**[02-01]** Database migration pending
+- Prisma schema updated with OAuth fields and token models
+- Migration not created yet (requires Docker services running)
+- Action: Run `npx prisma migrate dev --name add_oauth_and_tokens` when Docker available
+- Impact: Schema changes not applied to database until migration runs
 
 ## Session Continuity
 
-Last session: 2026-02-07 16:17 UTC
-Stopped at: Completed 01-04-PLAN.md (Seed Data, CI/CD, and Documentation) — Phase 1 complete
+Last session: 2026-02-07 17:47 UTC
+Stopped at: Completed 02-01-PLAN.md (Auth Foundation - Dependencies, Schema & Middleware)
 Resume file: None
