@@ -240,4 +240,54 @@ export class AuthService {
     // Send notification email
     await this.emailService.sendPasswordChangedEmail(resetToken.user.email);
   }
+
+  /**
+   * Find or create OAuth user (handles both Google and LinkedIn)
+   */
+  async findOrCreateOAuthUser(data: {
+    provider: 'google' | 'linkedin';
+    providerId: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    avatar?: string;
+  }): Promise<UserWithoutPassword> {
+    // 1. Check if user already exists with this OAuth provider ID
+    let user;
+    if (data.provider === 'google') {
+      user = await this.usersService.findByGoogleId(data.providerId);
+    } else {
+      user = await this.usersService.findByLinkedInId(data.providerId);
+    }
+    if (user) {
+      const { passwordHash, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    }
+
+    // 2. Check if user exists with this email (account linking)
+    user = await this.usersService.findByEmail(data.email);
+    if (user) {
+      // Link OAuth provider to existing account
+      await this.usersService.linkOAuthProvider(user.id, data.provider, data.providerId);
+      // Update avatar if not set
+      if (!user.avatar && data.avatar) {
+        await this.prisma.user.update({ where: { id: user.id }, data: { avatar: data.avatar } });
+      }
+      const refreshedUser = await this.usersService.findById(user.id);
+      return refreshedUser as UserWithoutPassword;
+    }
+
+    // 3. Create new user (OAuth users are auto-verified)
+    const newUser = await this.usersService.create({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      avatar: data.avatar,
+      [data.provider === 'google' ? 'googleId' : 'linkedinId']: data.providerId,
+      emailVerified: new Date(), // OAuth providers verify emails
+    });
+
+    const { passwordHash, ...userWithoutPassword } = newUser;
+    return userWithoutPassword;
+  }
 }

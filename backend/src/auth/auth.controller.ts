@@ -16,6 +16,7 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
@@ -158,5 +159,33 @@ export class AuthController {
   async resetPassword(@Body() dto: ResetPasswordDto) {
     await this.authService.resetPassword(dto.token, dto.newPassword);
     return { message: 'Password reset successfully. Please log in with your new password.' };
+  }
+
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  async googleAuth() {
+    // Guard redirects to Google
+  }
+
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
+    // Passport populates req.user after OAuth callback
+    // Regenerate session for security
+    const user = req.user;
+    req.session.regenerate((err) => {
+      if (err) {
+        return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
+      }
+      (req.session as any).passport = { user: (user as any).id };
+      (req.session as any).createdAt = Date.now();
+      req.session.save((err) => {
+        if (err) {
+          return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
+        }
+        // Redirect to frontend dashboard
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`);
+      });
+    });
   }
 }
