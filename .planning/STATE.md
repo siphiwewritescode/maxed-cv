@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 6 (Authentication & Security)
-Plan: 1 of 6 in current phase
+Plan: 2 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 02-01-PLAN.md (Auth Foundation - Dependencies, Schema & Middleware)
+Last activity: 2026-02-07 — Completed 02-02-PLAN.md (JWT Authentication Implementation)
 
-Progress: [█████░░░░░] 50%
+Progress: [█████░░░░░] 60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 7 min
-- Total execution time: 1.1 hours
+- Total plans completed: 6
+- Average duration: 6 min
+- Total execution time: 1.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
-| Phase 2 | 1 | 6 min | 6 min |
+| Phase 2 | 2 | 10 min | 5 min |
 
 **Recent Trend:**
-- Last 5 plans: 7min, 2min, 3min, 6min
-- Trend: Stable (4.5min vs 7min average)
+- Last 5 plans: 2min, 3min, 6min, 4min
+- Trend: Improving (3.8min vs 6min average)
 
 *Updated after each plan completion*
 
@@ -65,6 +65,10 @@ Recent decisions affecting current work:
 - **[02-01]** Sliding session expiration (rolling: true) for better UX
 - **[02-01]** 7-day session duration balancing security and convenience
 - **[02-01]** OAuth and email env vars optional to allow dev without external services
+- **[02-02]** Session stores only user ID (not full object) for fresh data and smaller session size
+- **[02-02]** Session regeneration after login prevents session fixation attacks
+- **[02-02]** rememberMe extends cookie maxAge from 7 days to 30 days per user preference
+- **[02-02]** Generic "Invalid credentials" error prevents user enumeration
 
 ### Pending Todos
 
@@ -80,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07 17:47 UTC
-Stopped at: Completed 02-01-PLAN.md (Auth Foundation - Dependencies, Schema & Middleware)
+Last session: 2026-02-07 17:55 UTC
+Stopped at: Completed 02-02-PLAN.md (JWT Authentication Implementation)
 Resume file: None
