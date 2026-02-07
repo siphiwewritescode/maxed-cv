@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 6 (Authentication & Security)
-Plan: 4 of 6 in current phase
+Plan: 5 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 02-04-PLAN.md (Email Verification & Password Reset)
+Last activity: 2026-02-07 — Completed 02-05-PLAN.md (OAuth Integration)
 
-Progress: [███████░░░] 75%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 5 min
-- Total execution time: 1.3 hours
+- Total plans completed: 9
+- Average duration: 4.6 min
+- Total execution time: 1.4 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
-| Phase 2 | 4 | 15 min | 3.8 min |
+| Phase 2 | 5 | 18 min | 3.6 min |
 
 **Recent Trend:**
-- Last 5 plans: 6min, 4min, 2min, 3min
-- Trend: Excellent (3min vs 5min average)
+- Last 5 plans: 4min, 2min, 3min, 3min
+- Trend: Excellent (2.8min vs 4.6min average)
 
 *Updated after each plan completion*
 
@@ -78,6 +78,10 @@ Recent decisions affecting current work:
 - **[02-04]** Artificial delay for non-existent emails prevents user enumeration
 - **[02-04]** All sessions invalidated on password reset (security best practice)
 - **[02-04]** Auto-login after email verification (better UX)
+- **[02-05]** OAuth strategies conditionally registered (app works without credentials)
+- **[02-05]** LinkedIn uses openid/profile/email scopes (newer Sign In with LinkedIn API)
+- **[02-05]** Account linking by email when OAuth email matches existing user
+- **[02-05]** OAuth users auto-verified (Google/LinkedIn verify emails)
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07 18:25 UTC
-Stopped at: Completed 02-04-PLAN.md (Email Verification & Password Reset)
+Last session: 2026-02-07 18:10 UTC
+Stopped at: Completed 02-05-PLAN.md (OAuth Integration)
 Resume file: None
