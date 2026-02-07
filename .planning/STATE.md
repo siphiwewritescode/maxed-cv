@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 6 (Authentication & Security)
-Plan: 2 of 6 in current phase
+Plan: 3 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 02-02-PLAN.md (JWT Authentication Implementation)
+Last activity: 2026-02-07 — Completed 02-03-PLAN.md (Sessions & Email Infrastructure)
 
-Progress: [█████░░░░░] 60%
+Progress: [██████░░░░] 70%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 6 min
-- Total execution time: 1.2 hours
+- Total plans completed: 7
+- Average duration: 5 min
+- Total execution time: 1.3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
-| Phase 2 | 2 | 10 min | 5 min |
+| Phase 2 | 3 | 12 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 2min, 3min, 6min, 4min
-- Trend: Improving (3.8min vs 6min average)
+- Last 5 plans: 3min, 6min, 4min, 2min
+- Trend: Improving (3.8min vs 5min average)
 
 *Updated after each plan completion*
 
@@ -69,6 +69,9 @@ Recent decisions affecting current work:
 - **[02-02]** Session regeneration after login prevents session fixation attacks
 - **[02-02]** rememberMe extends cookie maxAge from 7 days to 30 days per user preference
 - **[02-02]** Generic "Invalid credentials" error prevents user enumeration
+- **[02-03]** Max 3 concurrent sessions enforced (oldest evicted when 4th device logs in)
+- **[02-03]** Email failures log warning without crashing (dev without SMTP works)
+- **[02-03]** SA locale (en-ZA) for password change timestamps
 
 ### Pending Todos
 
@@ -84,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07 17:55 UTC
-Stopped at: Completed 02-02-PLAN.md (JWT Authentication Implementation)
+Last session: 2026-02-07 17:59 UTC
+Stopped at: Completed 02-03-PLAN.md (Sessions & Email Infrastructure)
 Resume file: None
