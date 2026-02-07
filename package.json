@@ -1,0 +1,33 @@
+{
+  "name": "maxed-cv",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-powered CV tailoring platform for the South African job market",
+  "scripts": {
+    "dev": "docker compose up",
+    "dev:build": "docker compose up --build",
+    "backend": "docker compose up backend db redis",
+    "frontend": "docker compose up frontend",
+    "stop": "docker compose down",
+    "clean": "docker compose down -v",
+    "db:migrate": "docker compose exec backend npx prisma migrate dev",
+    "db:seed": "docker compose exec backend npx prisma db seed",
+    "db:reset": "docker compose exec backend npx prisma migrate reset --force",
+    "db:studio": "docker compose exec backend npx prisma studio",
+    "logs:backend": "docker compose logs -f backend",
+    "logs:frontend": "docker compose logs -f frontend",
+    "logs": "docker compose logs -f",
+    "test:backend": "docker compose exec backend npm test",
+    "test:frontend": "docker compose exec frontend npm test"
+  },
+  "keywords": [
+    "cv",
+    "resume",
+    "ats",
+    "ai",
+    "south-africa",
+    "job-search"
+  ],
+  "author": "",
+  "license": "UNLICENSED"
+}
