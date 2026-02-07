@@ -12,6 +12,8 @@ import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -143,5 +145,18 @@ export class AuthController {
   async resendVerification(@CurrentUser() user: any) {
     await this.authService.resendVerificationEmail(user.id, user.email);
     return { message: 'Verification email sent' };
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    await this.authService.sendPasswordResetEmail(dto.email);
+    // Always return same message regardless of whether email exists (prevents user enumeration)
+    return { message: 'If that email is registered, we sent a password reset link' };
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() dto: ResetPasswordDto) {
+    await this.authService.resetPassword(dto.token, dto.newPassword);
+    return { message: 'Password reset successfully. Please log in with your new password.' };
   }
 }
