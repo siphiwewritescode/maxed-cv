@@ -1,0 +1,201 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User authentication and account
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  masterProfile MasterProfile?
+  jobs          Job[]
+  generatedCVs  GeneratedCV[]
+
+  @@index([email])
+}
+
+// Master profile containing all user's career information
+model MasterProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  firstName    String
+  lastName     String
+  email        String
+  phone        String?
+  location     String?
+  headline     String?
+  summary      String?
+  noticePeriod String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  experiences    Experience[]
+  skills         Skill[]
+  projects       Project[]
+  education      Education[]
+  certifications Certification[]
+
+  // Used for CV generation history
+  generatedCVs GeneratedCV[]
+
+  @@index([userId])
+}
+
+// Work experience entries
+model Experience {
+  id           String    @id @default(cuid())
+  profileId    String
+  company      String
+  position     String
+  location     String?
+  startDate    DateTime
+  endDate      DateTime?
+  description  String?
+  bulletPoints String[]
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// Skills
+model Skill {
+  id        String   @id @default(cuid())
+  profileId String
+  name      String
+  category  String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// Projects
+model Project {
+  id           String   @id @default(cuid())
+  profileId    String
+  name         String
+  description  String?
+  url          String?
+  technologies String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// Education
+model Education {
+  id           String    @id @default(cuid())
+  profileId    String
+  institution  String
+  degree       String
+  fieldOfStudy String?
+  startDate    DateTime
+  endDate      DateTime?
+  location     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// Certifications
+model Certification {
+  id         String    @id @default(cuid())
+  profileId  String
+  name       String
+  issuer     String?
+  issueDate  DateTime?
+  expiryDate DateTime?
+  url        String?
+  createdAt  DateTime  @default(now())
+
+  // Relations
+  profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+// Job postings scraped from job boards
+model Job {
+  id           String   @id @default(cuid())
+  userId       String
+  url          String?
+  title        String
+  company      String?
+  location     String?
+  description  String
+  requirements String[]
+  rawHtml      String?
+  source       String
+  scrapedAt    DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  // Relations
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generatedCVs GeneratedCV[]
+
+  @@index([userId])
+  @@index([source])
+}
+
+// Generated CVs for specific jobs
+model GeneratedCV {
+  id        String    @id @default(cuid())
+  userId    String
+  jobId     String
+  profileId String
+  content   Json
+  atsScore  Float?
+  status    CVStatus  @default(PENDING)
+  filename  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relations
+  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job     Job           @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([jobId])
+  @@index([profileId])
+  @@index([status])
+}
+
+// Enum for CV generation status
+enum CVStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
