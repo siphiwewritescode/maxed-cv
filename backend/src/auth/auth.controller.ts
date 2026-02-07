@@ -17,6 +17,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { LinkedInAuthGuard } from './guards/linkedin-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
@@ -184,6 +185,32 @@ export class AuthController {
           return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
         }
         // Redirect to frontend dashboard
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`);
+      });
+    });
+  }
+
+  @Get('linkedin')
+  @UseGuards(LinkedInAuthGuard)
+  async linkedinAuth() {
+    // Guard redirects to LinkedIn
+  }
+
+  @Get('linkedin/callback')
+  @UseGuards(LinkedInAuthGuard)
+  async linkedinAuthCallback(@Req() req: Request, @Res() res: Response) {
+    // Same session establishment pattern as Google callback
+    const user = req.user;
+    req.session.regenerate((err) => {
+      if (err) {
+        return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
+      }
+      (req.session as any).passport = { user: (user as any).id };
+      (req.session as any).createdAt = Date.now();
+      req.session.save((err) => {
+        if (err) {
+          return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=session_error`);
+        }
         res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`);
       });
     });

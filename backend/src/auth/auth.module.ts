@@ -9,11 +9,15 @@ import { AuthController } from './auth.controller';
 import { LocalStrategy } from './strategies/local.strategy';
 import { SessionSerializer } from './strategies/session.serializer';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { LinkedInStrategy } from './strategies/linkedin.strategy';
 
 // Conditionally register OAuth strategies
 const optionalProviders = [];
 if (process.env.GOOGLE_CLIENT_ID) {
   optionalProviders.push(GoogleStrategy);
+}
+if (process.env.LINKEDIN_CLIENT_ID) {
+  optionalProviders.push(LinkedInStrategy);
 }
 
 @Module({
