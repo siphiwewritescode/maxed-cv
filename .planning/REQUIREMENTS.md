@@ -110,13 +110,51 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (To be populated by roadmapper) | | |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| AUTH-05 | Phase 2 | Pending |
+| PROF-01 | Phase 3 | Pending |
+| PROF-02 | Phase 3 | Pending |
+| PROF-03 | Phase 3 | Pending |
+| PROF-04 | Phase 3 | Pending |
+| PROF-05 | Phase 3 | Pending |
+| PROF-06 | Phase 3 | Pending |
+| PROF-07 | Phase 3 | Pending |
+| PROF-08 | Phase 3 | Pending |
+| PROF-09 | Phase 3 | Pending |
+| PROF-10 | Phase 3 | Pending |
+| JOB-01 | Phase 4 | Pending |
+| JOB-02 | Phase 4 | Pending |
+| JOB-03 | Phase 4 | Pending |
+| JOB-04 | Phase 4 | Pending |
+| JOB-05 | Phase 4 | Pending |
+| JOB-06 | Phase 4 | Pending |
+| JOB-07 | Phase 4 | Pending |
+| JOB-08 | Phase 4 | Pending |
+| AI-01 | Phase 5 | Pending |
+| AI-02 | Phase 5 | Pending |
+| AI-03 | Phase 5 | Pending |
+| AI-04 | Phase 5 | Pending |
+| AI-05 | Phase 5 | Pending |
+| AI-06 | Phase 5 | Pending |
+| AI-07 | Phase 5 | Pending |
+| AI-08 | Phase 5 | Pending |
+| PREV-01 | Phase 6 | Pending |
+| PREV-02 | Phase 6 | Pending |
+| PREV-03 | Phase 6 | Pending |
+| PREV-04 | Phase 6 | Pending |
+| PREV-05 | Phase 6 | Pending |
+| PREV-06 | Phase 6 | Pending |
+| PREV-07 | Phase 6 | Pending |
+| PREV-08 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 40 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 40 (pending roadmap)
+- v1 requirements: 39 total
+- Mapped to phases: 39 (100% coverage)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-07*
-*Last updated: 2026-02-07 after initial definition*
+*Last updated: 2026-02-07 after roadmap creation*
