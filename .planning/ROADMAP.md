@@ -12,7 +12,7 @@ This roadmap delivers an AI-powered CV tailoring platform for the South African 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Project Setup - [ ] **Phase 1: Project Setup & Infrastructure** Infrastructure** - Foundation with database, Docker, and API scaffolding
+- [x] **Phase 1: Project Setup & Infrastructure** - Foundation with database, Docker, and API scaffolding
 - [ ] **Phase 2: Authentication & Security** - User registration, login, and session management
 - [ ] **Phase 3: Master Profile Management** - Create and edit comprehensive user profiles with SA-specific fields
 - [ ] **Phase 4: Job URL Scraping** - Extract job descriptions from LinkedIn, Pnet, and other SA job boards
@@ -34,10 +34,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold NestJS backend with Prisma schema and health check endpoint
-- [ ] 01-02-PLAN.md — Scaffold Next.js frontend with App Router, SEO metadata, and API client
-- [ ] 01-03-PLAN.md — Docker Compose orchestration, Dockerfiles, root npm scripts, and env config
-- [ ] 01-04-PLAN.md — Prisma seed data (SA-themed), CI/CD pipeline, and README documentation
+- [x] 01-01-PLAN.md — Scaffold NestJS backend with Prisma schema and health check endpoint
+- [x] 01-02-PLAN.md — Scaffold Next.js frontend with App Router, SEO metadata, and API client
+- [x] 01-03-PLAN.md — Docker Compose orchestration, Dockerfiles, root npm scripts, and env config
+- [x] 01-04-PLAN.md — Prisma seed data (SA-themed), CI/CD pipeline, and README documentation
 
 ### Phase 2: Authentication & Security
 **Goal**: Users can create accounts, log in securely, and manage their authentication state
@@ -49,10 +49,16 @@ Plans:
   3. User can reset forgotten password via email link
   4. User can log out from any page and session is cleared
   5. Unauthenticated users are redirected to login when accessing protected routes
-**Plans**: TBD
+**Plans**: 7 plans
 
 Plans:
-- [ ] 02-01: [TBD during planning]
+- [ ] 02-01-PLAN.md — Install auth dependencies, update Prisma schema (OAuth + tokens), bootstrap session/Passport middleware
+- [ ] 02-02-PLAN.md — Users module and Auth module (local strategy, signup, login, logout, guards)
+- [ ] 02-03-PLAN.md — Sessions management service (multi-device limits) and Email module (Handlebars templates)
+- [ ] 02-04-PLAN.md — Email verification flow and password reset flow (backend)
+- [ ] 02-05-PLAN.md — Google and LinkedIn OAuth strategies with account linking
+- [ ] 02-06-PLAN.md — Rate limiting, absolute session expiry, session tracking integration, seed data update
+- [ ] 02-07-PLAN.md — Frontend auth pages (login, signup, reset, verify), route protection, dashboard
 
 ### Phase 3: Master Profile Management
 **Goal**: Users can create, edit, and manage comprehensive master profiles with all CV data
@@ -125,8 +131,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Setup | 1. Project Setup & Infrastructure | 0/4 | Planning complete | - | Infrastructure | 4/4 | Complete | 2026-02-07 |
-| 2. Authentication & Security | 0/0 | Not started | - |
+| 1. Project Setup & Infrastructure | 4/4 | Complete | 2026-02-07 |
+| 2. Authentication & Security | 0/7 | Planning complete | - |
 | 3. Master Profile Management | 0/0 | Not started | - |
 | 4. Job URL Scraping | 0/0 | Not started | - |
 | 5. AI CV Generation | 0/0 | Not started | - |
