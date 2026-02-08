@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 3 of 6 (Master Profile Management)
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-02-08 — Completed 03-03-PLAN.md (Wizard Shell + Personal Info Step)
+Plan: 4 of 6 in current phase
+Status: In progress
+Last activity: 2026-02-08 — Completed 03-04-PLAN.md (Work Experience Section)
 
-Progress: [██████████████] 100% (15/15 plans)
+Progress: [██████████████░░] 94% (16/17 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
-- Average duration: 4.3 min
-- Total execution time: 2.0 hours
+- Total plans completed: 16
+- Average duration: 4.5 min
+- Total execution time: 2.1 hours
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [██████████████] 100% (15/15 plans)
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
 | Phase 2 | 8 | 27.1 min | 3.4 min |
-| Phase 3 | 3 | 17 min | 5.7 min |
+| Phase 3 | 4 | 24.7 min | 6.2 min |
 
 **Recent Trend:**
-- Last 5 plans: 2.6min, 6min, 7min, 4min
-- Trend: Good (4.9min vs 4.3min average)
+- Last 5 plans: 6min, 7min, 4min, 7.7min
+- Trend: Good (6.2min vs 4.5min average - complex drag-drop UI)
 
 *Updated after each plan completion*
 
@@ -115,6 +115,12 @@ Recent decisions affecting current work:
 - **[03-03]** Skip button on Personal Info step allows advancing without save
 - **[03-03]** Success indicator shows briefly (800ms) before advancing to next step
 - **[03-03]** Notice Period uses text input instead of select dropdown for flexibility
+- **[03-04]** Render props pattern for SortableItem enables flexible drag handle placement
+- **[03-04]** Nested DndContext in BulletPointList prevents interference with card-level drag-drop
+- **[03-04]** Optimistic updates in SortableExperienceList provide instant feedback, revert on failure
+- **[03-04]** type="month" for date inputs provides consistent native picker across browsers
+- **[03-04]** Experience cards show first 3 bullet points with expand/collapse for progressive disclosure
+- **[03-04]** refreshProfile() added to WizardContext for data sync after CRUD operations
 
 ### Pending Todos
 
@@ -130,6 +136,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-08 18:21 UTC
-Stopped at: Completed 03-03-PLAN.md (Wizard Shell + Personal Info Step)
+Last session: 2026-02-08 19:18 UTC
+Stopped at: Completed 03-04-PLAN.md (Work Experience Section)
 Resume file: None
