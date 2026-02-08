@@ -1,0 +1,41 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - heading "Maxed-CV" [level=1] [ref=e8]
+      - paragraph [ref=e9]: Create your account
+    - generic [ref=e10]: Internal server error
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: First Name
+          - textbox [ref=e15]: Test
+        - generic [ref=e16]:
+          - generic [ref=e17]: Last Name
+          - textbox [ref=e18]: User
+      - generic [ref=e19]:
+        - generic [ref=e20]: Email
+        - textbox [ref=e21]: sipho@example.com
+      - generic [ref=e22]:
+        - generic [ref=e23]: Password
+        - generic [ref=e24]:
+          - textbox [ref=e25]: password123
+          - button "Show password" [ref=e26] [cursor=pointer]: 👁️‍🗨️
+        - paragraph [ref=e27]: Minimum 8 characters
+      - button "Create account" [ref=e28] [cursor=pointer]
+      - paragraph [ref=e29]:
+        - text: Already have an account?
+        - link "Sign in" [ref=e30] [cursor=pointer]:
+          - /url: /login
+      - generic [ref=e33]: or continue with
+      - generic [ref=e35]:
+        - link "Google" [ref=e36] [cursor=pointer]:
+          - /url: http://localhost:3001/auth/google
+        - link "LinkedIn" [ref=e37] [cursor=pointer]:
+          - /url: http://localhost:3001/auth/linkedin
+  - alert [ref=e38]
+```

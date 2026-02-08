@@ -1,0 +1,3 @@
+@echo off
+echo Starting services for testing...
+call start.bat
