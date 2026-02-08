@@ -49,7 +49,35 @@ export class AuthService {
   async signup(dto: SignupDto): Promise<UserWithoutPassword> {
     // Check if email already exists
     const existingUser = await this.usersService.findByEmail(dto.email);
+
     if (existingUser) {
+      // If account is deactivated, reactivate it with new password
+      if (existingUser.deactivatedAt) {
+        // Hash new password
+        const passwordHash = await this.hashPassword(dto.password);
+
+        // Reactivate account: update password, clear deactivatedAt, update name, clear emailVerified
+        const reactivatedUser = await this.prisma.user.update({
+          where: { id: existingUser.id },
+          data: {
+            passwordHash,
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+            name: `${dto.firstName} ${dto.lastName}`,
+            deactivatedAt: null,
+            emailVerified: null, // Require re-verification for reactivated accounts
+          },
+        });
+
+        // Send verification email for reactivated account
+        await this.sendVerificationEmail(reactivatedUser.id, reactivatedUser.email);
+
+        // Return user without passwordHash
+        const { passwordHash: _, ...userWithoutPassword } = reactivatedUser;
+        return userWithoutPassword;
+      }
+
+      // Account exists and is active - can't sign up with this email
       throw new ConflictException('An account with this email already exists');
     }
 

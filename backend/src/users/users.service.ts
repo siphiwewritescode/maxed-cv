@@ -122,4 +122,14 @@ export class UsersService {
       data: updateData,
     });
   }
+
+  /**
+   * Deactivate user account (soft delete)
+   */
+  async deactivateAccount(userId: string): Promise<User> {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: { deactivatedAt: new Date() },
+    });
+  }
 }
