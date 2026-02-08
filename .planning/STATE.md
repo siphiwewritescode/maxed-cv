@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-07)
 
 **Core value:** Eliminate the friction of manual CV tailoring that causes talented South African professionals to lose momentum in a highly competitive job market, ensuring every applicant has the best possible chance of passing ATS filters and reaching human recruiters.
-**Current focus:** Phase 2 - Authentication & Security
+**Current focus:** Phase 3 - Master Profile Management
 
 ## Current Position
 
-Phase: 2 of 6 (Authentication & Security)
-Plan: 9 of 9 in current phase
-Status: Phase complete (UAT gap closure)
-Last activity: 2026-02-08 — Completed 02-09-PLAN.md (UAT Gap 2 - Fix Critical Logout/Re-login Bug)
+Phase: 3 of 6 (Master Profile Management)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-02-08 — Completed 03-01-PLAN.md (Profile API Foundation)
 
-Progress: [██████████] 100%
+Progress: [█████████████░] 93% (13/14 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 4.0 min
-- Total execution time: 1.7 hours
+- Total plans completed: 13
+- Average duration: 4.2 min
+- Total execution time: 1.8 hours
 
 **By Phase:**
 
@@ -29,10 +29,11 @@ Progress: [██████████] 100%
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
 | Phase 2 | 8 | 27.1 min | 3.4 min |
+| Phase 3 | 1 | 6 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 3min, 3.5min, 3min, 2.6min
-- Trend: Excellent (3.0min vs 4.0min average)
+- Last 5 plans: 3.5min, 3min, 2.6min, 6min
+- Trend: Good (3.8min vs 4.2min average)
 
 *Updated after each plan completion*
 
@@ -94,6 +95,14 @@ Recent decisions affecting current work:
 - **[02-09]** Logout always clears cookie (even if session.destroy or Redis fails) prevents stale session race conditions
 - **[02-09]** Session tracking Redis operations wrapped in try-catch (auth flows continue if Redis down)
 - **[02-09]** Frontend logout checks response status and always returns success (graceful error handling)
+- **[03-01]** Order field (Int @default(0)) added to Skill, Education, Project, Certification for drag-drop reordering
+- **[03-01]** Certification.credentialId optional (some certs have IDs, others don't)
+- **[03-01]** Certification.issuer changed to required (core identifying information)
+- **[03-01]** jobTitle DTO maps to position schema field (user-facing vs technical naming)
+- **[03-01]** getProfile() auto-creates profile if doesn't exist using User table defaults
+- **[03-01]** updateSkills uses transaction (deleteMany + createMany) for atomic replacement
+- **[03-01]** All update/delete operations verify profileId.userId matches session user (ownership verification)
+- **[03-01]** New items get order = max(existing.order) + 1 (auto-increment ordering)
 
 ### Pending Todos
 
@@ -101,14 +110,14 @@ None yet.
 
 ### Blockers/Concerns
 
-**[02-01]** Database migration pending
-- Prisma schema updated with OAuth fields and token models
+**[03-01]** Database migration pending
+- Prisma schema updated with ordering fields (order Int @default(0)) and credentialId
 - Migration not created yet (requires Docker services running)
-- Action: Run `npx prisma migrate dev --name add_oauth_and_tokens` when Docker available
-- Impact: Schema changes not applied to database until migration runs
+- Action: Run `npx prisma migrate dev --name add_profile_ordering_fields` when Docker available
+- Impact: Profile API endpoints will fail at runtime until migration runs (schema mismatch)
 
 ## Session Continuity
 
-Last session: 2026-02-08 10:31 UTC
-Stopped at: Completed 02-09-PLAN.md (UAT Gap 2 - Fix Critical Logout/Re-login Bug) - Phase 2 COMPLETE
+Last session: 2026-02-08 18:03 UTC
+Stopped at: Completed 03-01-PLAN.md (Profile API Foundation)
 Resume file: None
