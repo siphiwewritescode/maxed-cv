@@ -73,10 +73,15 @@ Plans:
   4. User can add skills, projects, education entries, and certifications
   5. Master Profile data is stored securely and complies with POPIA standards (no sensitive ID numbers)
   6. User can view and edit their complete profile at any time
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 03-01: [TBD during planning]
+- [ ] 03-01-PLAN.md — Prisma schema updates and backend Profile module with full CRUD API
+- [ ] 03-02-PLAN.md — Frontend foundation (deps, shadcn/ui, types, validation schemas, skills DB, API client)
+- [ ] 03-03-PLAN.md — Multi-step wizard shell with Personal Info step
+- [ ] 03-04-PLAN.md — Work Experience section (cards, modal forms, bullet points, drag-and-drop)
+- [ ] 03-05-PLAN.md — Skills tag input, Education, Projects, and Certifications sections
+- [ ] 03-06-PLAN.md — Wizard integration, profile view page, dashboard navigation, verification
 
 ### Phase 4: Job URL Scraping
 **Goal**: Users can paste job URLs and system extracts requirements from SA job boards with fallback handling
@@ -135,7 +140,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Project Setup & Infrastructure | 4/4 | Complete | 2026-02-07 |
 | 2. Authentication & Security | 0/9 | Planning complete | - |
-| 3. Master Profile Management | 0/0 | Not started | - |
+| 3. Master Profile Management | 0/6 | Planning complete | - |
 | 4. Job URL Scraping | 0/0 | Not started | - |
 | 5. AI CV Generation | 0/0 | Not started | - |
 | 6. PDF Generation & Preview | 0/0 | Not started | - |
