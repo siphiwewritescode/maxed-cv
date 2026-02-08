@@ -16,37 +16,52 @@ export class SessionsService implements OnModuleDestroy {
   }
 
   async addUserSession(userId: string, sessionId: string): Promise<void> {
-    const setKey = `user:${userId}:sessions`;
+    try {
+      const setKey = `user:${userId}:sessions`;
 
-    // Add the new session
-    await this.redis.sadd(setKey, sessionId);
+      // Add the new session
+      await this.redis.sadd(setKey, sessionId);
 
-    // Check if we've exceeded the limit
-    const sessionCount = await this.redis.scard(setKey);
+      // Check if we've exceeded the limit
+      const sessionCount = await this.redis.scard(setKey);
 
-    if (sessionCount > this.MAX_SESSIONS) {
-      // Get all sessions
-      const sessions = await this.redis.smembers(setKey);
+      if (sessionCount > this.MAX_SESSIONS) {
+        // Get all sessions
+        const sessions = await this.redis.smembers(setKey);
 
-      // Sort to get oldest (first in set - note: Redis sets are unordered,
-      // but for simplicity we take the first member returned)
-      const oldestSessionId = sessions[0];
+        // Sort to get oldest (first in set - note: Redis sets are unordered,
+        // but for simplicity we take the first member returned)
+        const oldestSessionId = sessions[0];
 
-      // Remove from user's session set
-      await this.redis.srem(setKey, oldestSessionId);
+        // Remove from user's session set
+        await this.redis.srem(setKey, oldestSessionId);
 
-      // Destroy the actual session data
-      await this.redis.del(`sess:${oldestSessionId}`);
+        // Destroy the actual session data
+        await this.redis.del(`sess:${oldestSessionId}`);
 
-      this.logger.log(
-        `Evicted oldest session ${oldestSessionId} for user ${userId} (max ${this.MAX_SESSIONS} sessions)`,
+        this.logger.log(
+          `Evicted oldest session ${oldestSessionId} for user ${userId} (max ${this.MAX_SESSIONS} sessions)`,
+        );
+      }
+    } catch (err) {
+      this.logger.error(
+        `Failed to add/track session for user ${userId}: ${err.message}`,
       );
+      // Don't throw - session will still work, just won't be tracked
+      // This allows auth flow to continue even if Redis is temporarily down
     }
   }
 
   async removeUserSession(userId: string, sessionId: string): Promise<void> {
-    const setKey = `user:${userId}:sessions`;
-    await this.redis.srem(setKey, sessionId);
+    try {
+      const setKey = `user:${userId}:sessions`;
+      await this.redis.srem(setKey, sessionId);
+    } catch (err) {
+      this.logger.error(
+        `Failed to remove session tracking for user ${userId}: ${err.message}`,
+      );
+      // Don't throw - logout should proceed even if tracking cleanup fails
+    }
   }
 
   async getUserSessions(userId: string): Promise<string[]> {
@@ -55,22 +70,29 @@ export class SessionsService implements OnModuleDestroy {
   }
 
   async removeAllUserSessions(userId: string): Promise<void> {
-    const setKey = `user:${userId}:sessions`;
+    try {
+      const setKey = `user:${userId}:sessions`;
 
-    // Get all session IDs
-    const sessionIds = await this.redis.smembers(setKey);
+      // Get all session IDs
+      const sessionIds = await this.redis.smembers(setKey);
 
-    // Destroy each session
-    for (const sessionId of sessionIds) {
-      await this.redis.del(`sess:${sessionId}`);
+      // Destroy each session
+      for (const sessionId of sessionIds) {
+        await this.redis.del(`sess:${sessionId}`);
+      }
+
+      // Clear the tracking set
+      await this.redis.del(setKey);
+
+      this.logger.log(
+        `Removed all ${sessionIds.length} sessions for user ${userId}`,
+      );
+    } catch (err) {
+      this.logger.error(
+        `Failed to remove all sessions for user ${userId}: ${err.message}`,
+      );
+      // Don't throw - operation should be considered complete even if Redis fails
     }
-
-    // Clear the tracking set
-    await this.redis.del(setKey);
-
-    this.logger.log(
-      `Removed all ${sessionIds.length} sessions for user ${userId}`,
-    );
   }
 
   async getSessionCount(userId: string): Promise<number> {
