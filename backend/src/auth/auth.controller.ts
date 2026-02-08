@@ -7,6 +7,7 @@ import {
   Res,
   UseGuards,
   InternalServerErrorException,
+  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
@@ -24,6 +25,8 @@ import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
+
   constructor(
     private authService: AuthService,
     private sessionsService: SessionsService,
@@ -100,17 +103,32 @@ export class AuthController {
     // Remove session from tracking before destroying
     const session = req.session as any;
     if (session?.passport?.user) {
-      await this.sessionsService.removeUserSession(
-        session.passport.user,
-        req.sessionID,
-      );
+      this.logger.log(`Logout initiated for user ${session.passport.user}, sessionID: ${req.sessionID}`);
+
+      // Wrap removeUserSession in try-catch
+      try {
+        await this.sessionsService.removeUserSession(
+          session.passport.user,
+          req.sessionID,
+        );
+      } catch (err) {
+        this.logger.warn(`Failed to remove session tracking for user ${session.passport.user}: ${err.message}`);
+        // Continue with logout - tracking failure shouldn't block user logout
+      }
     }
 
     req.session.destroy((err) => {
       if (err) {
-        return res.status(500).json({ message: 'Failed to log out' });
+        this.logger.error(`Session destroy failed: ${err.message}`);
+        // Still clear cookie even if destroy failed
       }
-      res.clearCookie('connect.sid');
+      // ALWAYS clear cookie - this is critical for preventing stale session state
+      res.clearCookie('connect.sid', {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+      });
       res.json({ message: 'Logged out successfully' });
     });
   }
