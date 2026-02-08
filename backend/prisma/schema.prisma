@@ -123,6 +123,7 @@ model Skill {
   profileId String
   name      String
   category  String?
+  order     Int      @default(0)
   createdAt DateTime @default(now())
 
   // Relations
@@ -139,6 +140,7 @@ model Project {
   description  String?
   url          String?
   technologies String[]
+  order        Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -158,6 +160,7 @@ model Education {
   startDate    DateTime
   endDate      DateTime?
   location     String?
+  order        Int       @default(0)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
@@ -169,14 +172,16 @@ model Education {
 
 // Certifications
 model Certification {
-  id         String    @id @default(cuid())
-  profileId  String
-  name       String
-  issuer     String?
-  issueDate  DateTime?
-  expiryDate DateTime?
-  url        String?
-  createdAt  DateTime  @default(now())
+  id           String    @id @default(cuid())
+  profileId    String
+  name         String
+  issuer       String
+  issueDate    DateTime?
+  credentialId String?
+  expiryDate   DateTime?
+  url          String?
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
 
   // Relations
   profile MasterProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
