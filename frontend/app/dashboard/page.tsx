@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { authAPI } from '../../lib/auth';
 import VerificationBanner from '../components/VerificationBanner';
+import Link from 'next/link';
 
 interface User {
   email: string;
@@ -41,20 +42,36 @@ export default function DashboardPage() {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
           <h1 style={{ margin: 0, color: '#1a1a2e' }}>Dashboard</h1>
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#dc3545',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-          >
-            Log out
-          </button>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <Link
+              href="/settings"
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#6c757d',
+                color: '#fff',
+                textDecoration: 'none',
+                borderRadius: '6px',
+                fontSize: '14px',
+                display: 'inline-block',
+              }}
+            >
+              Settings
+            </Link>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#dc3545',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+              }}
+            >
+              Log out
+            </button>
+          </div>
         </div>
         <div style={{
           backgroundColor: '#f8f9fa',

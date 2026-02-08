@@ -18,7 +18,7 @@ export default function VerifyEmailPage() {
         await authAPI.verifyEmail(token);
         setStatus('success');
         setTimeout(() => {
-          window.location.href = '/dashboard';
+          window.location.href = '/login';
         }, 2000);
       } catch (err) {
         setStatus('error');
@@ -88,10 +88,10 @@ export default function VerifyEmailPage() {
               Email Verified Successfully!
             </h1>
             <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px' }}>
-              Redirecting you to the dashboard...
+              Your email has been verified. Please log in with your credentials.
             </p>
             <Link
-              href="/dashboard"
+              href="/login"
               style={{
                 display: 'inline-block',
                 padding: '10px 20px',
@@ -101,7 +101,7 @@ export default function VerifyEmailPage() {
                 textDecoration: 'none',
               }}
             >
-              Go to dashboard now
+              Go to login page
             </Link>
           </>
         )}

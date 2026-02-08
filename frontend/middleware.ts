@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Routes that require authentication
-const protectedRoutes = ['/dashboard', '/profile'];
+const protectedRoutes = ['/dashboard', '/profile', '/settings'];
 // Routes that should redirect to dashboard if already authenticated
 const authRoutes = ['/login', '/signup'];
 
@@ -47,5 +47,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/profile/:path*', '/login', '/signup'],
+  matcher: ['/dashboard/:path*', '/profile/:path*', '/settings/:path*', '/login', '/signup'],
 };

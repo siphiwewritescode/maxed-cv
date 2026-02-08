@@ -108,4 +108,16 @@ export const authAPI = {
   getLinkedInLoginUrl() {
     return `${API_URL}/auth/linkedin`;
   },
+
+  async deactivateAccount() {
+    const res = await fetch(`${API_URL}/auth/deactivate`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ message: 'Deactivation failed' }));
+      throw new Error(error.message);
+    }
+    return res.json();
+  },
 };
