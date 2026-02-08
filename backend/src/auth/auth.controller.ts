@@ -71,14 +71,8 @@ export class AuthController {
         // Re-serialize user after regeneration
         (req.session as any).passport = { user: user.id };
 
-        // Set rememberMe flag and createdAt for tracking
-        (req.session as any).rememberMe = loginDto.rememberMe;
+        // Set createdAt for absolute session expiry tracking
         (req.session as any).createdAt = Date.now();
-
-        // Extend cookie maxAge for rememberMe
-        if (loginDto.rememberMe) {
-          req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
-        }
 
         req.session.save(async (err) => {
           if (err) return reject(new InternalServerErrorException('Session error'));
