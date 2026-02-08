@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { EmailModule } from './email/email.module';
+import { ProfileModule } from './profile/profile.module';
 import { CustomThrottlerGuard } from './auth/guards/custom-throttler.guard';
 import { AbsoluteSessionExpiryMiddleware } from './auth/middleware/absolute-session-expiry.middleware';
 
@@ -32,6 +33,7 @@ import { AbsoluteSessionExpiryMiddleware } from './auth/middleware/absolute-sess
     AuthModule,
     SessionsModule,
     EmailModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [
