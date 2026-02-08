@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 6 (Authentication & Security)
-Plan: 6 of 6 in current phase
-Status: Phase complete
-Last activity: 2026-02-07 — Completed 02-06-PLAN.md (RBAC & Permissions)
+Plan: 8 of 8 in current phase
+Status: Phase complete (UAT gap closure)
+Last activity: 2026-02-08 — Completed 02-08-PLAN.md (UAT Gap 1 - Dashboard Name & Login Simplification)
 
-Progress: [█████████░] 83%
+Progress: [██████████] 92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 4.4 min
-- Total execution time: 1.5 hours
+- Total plans completed: 11
+- Average duration: 4.2 min
+- Total execution time: 1.6 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 | 4 | 28 min | 7 min |
-| Phase 2 | 6 | 21.5 min | 3.6 min |
+| Phase 2 | 7 | 24.5 min | 3.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 2min, 3min, 3min, 3.5min
-- Trend: Excellent (2.9min vs 4.4min average)
+- Last 5 plans: 3min, 3min, 3.5min, 3min
+- Trend: Excellent (3.1min vs 4.2min average)
 
 *Updated after each plan completion*
 
@@ -85,6 +85,9 @@ Recent decisions affecting current work:
 - **[02-06]** Rate limits: login (5/min), signup (3/min), resend-verification (1/5min), forgot-password (1/5min)
 - **[02-06]** CustomThrottlerGuard uses user ID for authenticated, IP for anonymous (prevents NAT/VPN false positives)
 - **[02-06]** Absolute session expiry (7-day default, 30-day remember me) alongside sliding expiration
+- **[02-08]** Removed Remember Me feature entirely (all users get 7-day session)
+- **[02-08]** Dashboard now shows full name (firstName + lastName) instead of just firstName
+- **[02-08]** Maintained backward compatibility in LoginDto (rememberMe field optional but ignored)
 - **[02-06]** Session tracking integrated into all auth flows (max 3 concurrent sessions)
 - **[02-06]** Health endpoint skips throttling (monitoring needs unrestricted access)
 - **[02-06]** Seed password Test@1234 (bcrypt work factor 13) enables auth flow testing
@@ -103,6 +106,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07 18:20 UTC
-Stopped at: Completed 02-06-PLAN.md (RBAC & Permissions) - Phase 2 complete
+Last session: 2026-02-08 10:08 UTC
+Stopped at: Completed 02-08-PLAN.md (UAT Gap 1 - Dashboard Name & Login Simplification)
 Resume file: None
