@@ -3,6 +3,7 @@
 import { WizardProvider, useWizard } from './WizardContext'
 import { StepIndicator } from './StepIndicator'
 import PersonalInfoStep from './steps/PersonalInfoStep'
+import ExperienceStep from './steps/ExperienceStep'
 
 function WizardContent() {
   const { currentStep, isLoading } = useWizard()
@@ -21,13 +22,9 @@ function WizardContent() {
   return (
     <>
       <StepIndicator />
-      <div className="max-w-2xl mx-auto mt-8">
+      <div className="max-w-4xl mx-auto mt-8">
         {currentStep === 1 && <PersonalInfoStep />}
-        {currentStep === 2 && (
-          <div className="p-8 border rounded-lg bg-gray-50 text-center">
-            <p className="text-gray-600">Experience step coming soon</p>
-          </div>
-        )}
+        {currentStep === 2 && <ExperienceStep />}
         {currentStep === 3 && (
           <div className="p-8 border rounded-lg bg-gray-50 text-center">
             <p className="text-gray-600">Education & Certifications step coming soon</p>

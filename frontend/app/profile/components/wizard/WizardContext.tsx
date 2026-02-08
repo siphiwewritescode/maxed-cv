@@ -13,6 +13,7 @@ export type WizardContextType = {
   goToStep: (step: WizardStep) => void
   markStepComplete: (step: number) => void
   setProfileData: (data: MasterProfile) => void
+  refreshProfile: () => Promise<void>
   isLoading: boolean
 }
 
@@ -73,6 +74,15 @@ export function WizardProvider({ children }: { children: ReactNode }) {
     setCompletedSteps(prev => new Set(prev).add(step))
   }
 
+  const refreshProfile = async () => {
+    try {
+      const data = await profileAPI.getProfile()
+      setProfileData(data)
+    } catch (error) {
+      console.error('Failed to refresh profile:', error)
+    }
+  }
+
   return (
     <WizardContext.Provider
       value={{
@@ -82,6 +92,7 @@ export function WizardProvider({ children }: { children: ReactNode }) {
         goToStep,
         markStepComplete,
         setProfileData,
+        refreshProfile,
         isLoading,
       }}
     >
