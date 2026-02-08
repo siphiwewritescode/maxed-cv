@@ -7,6 +7,7 @@ import VerificationBanner from '../components/VerificationBanner';
 interface User {
   email: string;
   firstName?: string;
+  lastName?: string;
   name?: string;
   emailVerified?: boolean;
 }
@@ -61,7 +62,7 @@ export default function DashboardPage() {
           borderRadius: '8px',
           border: '1px solid #e9ecef',
         }}>
-          <p style={{ margin: '0 0 10px' }}>Welcome, <strong>{user?.firstName || user?.name || 'User'}</strong>!</p>
+          <p style={{ margin: '0 0 10px' }}>Welcome, <strong>{user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user?.name || 'User'}</strong>!</p>
           <p style={{ margin: '0', color: '#666' }}>Email: {user?.email}</p>
           <p style={{ margin: '10px 0 0', color: '#999', fontSize: '14px' }}>
             Your dashboard will show your master profile and generated CVs here in future phases.
