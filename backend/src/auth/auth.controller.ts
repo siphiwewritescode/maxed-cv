@@ -59,13 +59,19 @@ export class AuthController {
   }
 
   @Post('login')
-  @Throttle({ auth: { limit: 5, ttl: 60000 } }) // 5 login attempts per minute
+  // @Throttle({ auth: { limit: 5, ttl: 60000 } }) // 5 login attempts per minute - DISABLED FOR DEV
+  @SkipThrottle() // Skip rate limiting in development
   @UseGuards(LocalAuthGuard)
   async login(
     @Body() loginDto: LoginDto,
     @Req() req: Request,
     @CurrentUser() user: any,
   ) {
+    // Check if account is deactivated
+    if (user.deactivatedAt) {
+      throw new InternalServerErrorException('This account has been deactivated. Please contact support if you believe this is an error.');
+    }
+
     // Regenerate session to prevent session fixation
     return new Promise((resolve, reject) => {
       req.session.regenerate(async (err) => {
@@ -133,6 +139,7 @@ export class AuthController {
     });
   }
 
+  @SkipThrottle({ default: true, auth: true }) // Skip all throttlers - this is called very frequently
   @Get('me')
   @UseGuards(AuthenticatedGuard)
   async me(@CurrentUser() user: any) {
@@ -144,6 +151,50 @@ export class AuthController {
       emailVerified: user.emailVerified,
       avatar: user.avatar,
     };
+  }
+
+  @Post('deactivate')
+  @UseGuards(AuthenticatedGuard)
+  async deactivateAccount(
+    @CurrentUser() user: any,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const session = req.session as any;
+
+    this.logger.log(`Account deactivation initiated for user ${user.id}`);
+
+    // Deactivate the account
+    await this.authService['usersService'].deactivateAccount(user.id);
+
+    // Send confirmation email
+    await this.authService['emailService'].sendAccountDeactivatedEmail(
+      user.email,
+      user.firstName || user.name || 'User',
+    );
+
+    // Remove all user sessions
+    try {
+      await this.sessionsService.removeAllUserSessions(user.id);
+    } catch (err) {
+      this.logger.warn(`Failed to remove all sessions for user ${user.id}: ${err.message}`);
+    }
+
+    // Destroy current session and clear cookie
+    req.session.destroy((err) => {
+      if (err) {
+        this.logger.error(`Session destroy failed during deactivation: ${err.message}`);
+      }
+      res.clearCookie('connect.sid', {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+      });
+      res.json({
+        message: 'Account deactivated successfully. A confirmation email has been sent.'
+      });
+    });
   }
 
   @Post('verify-email')
