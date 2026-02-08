@@ -34,7 +34,17 @@ export const authAPI = {
       method: 'POST',
       credentials: 'include',
     });
-    return res.json();
+
+    if (!res.ok) {
+      // Backend logout failed, but we should still clear local state
+      console.warn('Backend logout failed, forcing local cleanup');
+      // Note: Browser will clear session cookie when navigating to /login
+      // due to server clearing it, but we log the warning for debugging
+    }
+
+    // Always return success object - frontend should clear local state
+    // and redirect to login regardless of backend status
+    return { message: 'Logged out successfully' };
   },
 
   async getMe() {
