@@ -49,7 +49,7 @@ Plans:
   3. User can reset forgotten password via email link
   4. User can log out from any page and session is cleared
   5. Unauthenticated users are redirected to login when accessing protected routes
-**Plans**: 7 plans
+**Plans**: 8 plans
 
 Plans:
 - [ ] 02-01-PLAN.md — Install auth dependencies, update Prisma schema (OAuth + tokens), bootstrap session/Passport middleware
@@ -59,6 +59,7 @@ Plans:
 - [ ] 02-05-PLAN.md — Google and LinkedIn OAuth strategies with account linking
 - [ ] 02-06-PLAN.md — Rate limiting, absolute session expiry, session tracking integration, seed data update
 - [ ] 02-07-PLAN.md — Frontend auth pages (login, signup, reset, verify), route protection, dashboard
+- [ ] 02-08-PLAN.md — Gap fix: Display user's full name on dashboard, remove Remember Me checkbox, 7-day default sessions
 
 ### Phase 3: Master Profile Management
 **Goal**: Users can create, edit, and manage comprehensive master profiles with all CV data
@@ -132,7 +133,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Setup & Infrastructure | 4/4 | Complete | 2026-02-07 |
-| 2. Authentication & Security | 0/7 | Planning complete | - |
+| 2. Authentication & Security | 0/8 | Planning complete | - |
 | 3. Master Profile Management | 0/0 | Not started | - |
 | 4. Job URL Scraping | 0/0 | Not started | - |
 | 5. AI CV Generation | 0/0 | Not started | - |
